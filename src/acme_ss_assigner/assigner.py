@@ -1,6 +1,33 @@
 import random
 
 
+def _validate(emp_list, prev_year_list):
+    expected_emp_attributes = ["Employee_Name", "Employee_EmailID"]
+    if len(emp_list[0]) != 2 or emp_list[0] != expected_emp_attributes:
+        raise ValueError(
+            "Employee list is not in proper format: " + str(emp_list[0]))
+    for i in range(len(emp_list)):
+        if len(emp_list[i]) != 2:
+            raise ValueError(
+                "Employee list is not in proper format: " + str(i + 1) + ": " + str(emp_list[i]))
+
+    if len(emp_list) == 2:
+        raise ValueError("Only 1 employee in list")
+    elif len(emp_list) == 3 and len(prev_year_list) >= 3:
+        print("Warning: cannot use previous year list with only 2 employees")
+
+    if len(prev_year_list):
+        expected_prev_attributes = [
+            "Employee_Name", "Employee_EmailID", "Secret_Child_Name", "Secret_Child_EmailID"]
+        if len(prev_year_list[0]) != 4 or prev_year_list[0] != expected_prev_attributes:
+            raise ValueError(
+                "Previous year list is not in proper format: " + str(prev_year_list[0]))
+        for i in range(len(prev_year_list)):
+            if len(prev_year_list[i]) != 4:
+                raise ValueError(
+                    "Previous year list is not in proper format: " + str(i + 1) + ": " + str(prev_year_list[i]))
+
+
 def _check(temp_list, list_to_shuffle, prev_year_dict):
     for i, j in zip(temp_list, list_to_shuffle):
         if i[1] == j[1] or (str(i[1]) in prev_year_dict and prev_year_dict[str(i[1])] == j[1]):
@@ -9,6 +36,8 @@ def _check(temp_list, list_to_shuffle, prev_year_dict):
 
 
 def assign(emp_list, prev_year_list):
+    _validate(emp_list, prev_year_list)
+
     list_to_shuffle = emp_list[1:]
     temp_list = list(list_to_shuffle)
     random.shuffle(list_to_shuffle)
@@ -16,11 +45,13 @@ def assign(emp_list, prev_year_list):
     prev_year_dict = {i[1]: i[3] for i in prev_year_list[1:]}
 
     attempts = 1
-    while not _check(temp_list, list_to_shuffle, prev_year_dict):
+    max_attempts = 200 if len(emp_list) < 100000 else 50
+    while not _check(temp_list, list_to_shuffle, prev_year_dict) and attempts < max_attempts:
         random.shuffle(list_to_shuffle)
         attempts += 1
-
-    print("Total attempts to assign:", attempts)
+    if attempts == max_attempts:
+        raise RuntimeError(
+            "Maximum attempts reached, please check input files")
 
     list_to_shuffle.insert(0, ['Secret_Child_Name', 'Secret_Child_EmailID'])
 
