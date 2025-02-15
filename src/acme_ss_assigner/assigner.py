@@ -10,6 +10,13 @@ def _validate(emp_list, prev_year_list):
         if len(emp_list[i]) != 2:
             raise ValueError(
                 "Employee list is not in proper format: " + str(i + 1) + ": " + str(emp_list[i]))
+    seen = set()
+    for i in range(len(emp_list)):
+        if emp_list[i][1] in seen:
+            raise ValueError("Employee list containes duplicates: " +
+                             str(i + 1) + ": " + str(emp_list[i]))
+        else:
+            seen.add(emp_list[i][1])
 
     if len(emp_list) == 2:
         raise ValueError("Only 1 employee in list")
@@ -26,6 +33,15 @@ def _validate(emp_list, prev_year_list):
             if len(prev_year_list[i]) != 4:
                 raise ValueError(
                     "Previous year list is not in proper format: " + str(i + 1) + ": " + str(prev_year_list[i]))
+    seen.clear()
+    seen_as = set()
+    for i in range(len(prev_year_list)):
+        if prev_year_list[i][1] in seen or prev_year_list[i][3] in seen_as:
+            raise ValueError("Previous year list contains duplicates: " +
+                             str(i + 1) + ": " + str(prev_year_list[i]))
+        else:
+            seen.add(prev_year_list[i][1])
+            seen_as.add(prev_year_list[i][3])
 
 
 def _check(temp_list, list_to_shuffle, prev_year_dict):

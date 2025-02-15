@@ -1,5 +1,3 @@
-import sys
-
 import src.acme_ss_assigner as ss
 
 
@@ -21,11 +19,17 @@ def main():
     # To check average attempts, uncomment following code
     '''
     total_attempts = 0
-    iterations = 100
-    for i in range(iterations):
+    iterations = 100 if len(emp_list) < 100000 else 10
+    for i in range(iterations + 1):
         _, curr_attempts = ss.assign(emp_list, prev_year_list)
         total_attempts += curr_attempts
-    average = total_attempts / iterations
+
+        bar_length = 20
+        filled_length = int(bar_length * i // iterations)
+        bar = "=" * filled_length + "-" * (bar_length - filled_length)
+        print(f"[{bar}]", end="\r" if i < iterations else "\n", flush=True)
+
+    average = round(total_attempts / iterations, 2)
     print("Average attempts:", average)
     '''
 
