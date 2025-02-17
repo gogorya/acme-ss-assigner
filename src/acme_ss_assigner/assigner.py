@@ -1,7 +1,16 @@
 import random
+import warnings
+
+from itertools import islice
 
 
 def _validate(emp_list, prev_year_list):
+    if len(emp_list) <= 2:
+        raise ValueError("Employee list size is less than 2")
+    elif len(emp_list) == 3 and len(prev_year_list) >= 3:
+        warnings.warn(
+            "Cannot use previous year list with only 2 employees", RuntimeWarning)
+
     expected_emp_attributes = ["Employee_Name", "Employee_EmailID"]
     if len(emp_list[0]) != 2 or emp_list[0] != expected_emp_attributes:
         raise ValueError(
@@ -17,11 +26,6 @@ def _validate(emp_list, prev_year_list):
                              str(i + 1) + ": " + str(emp_list[i]))
         else:
             seen.add(emp_list[i][1])
-
-    if len(emp_list) == 2:
-        raise ValueError("Only 1 employee in list")
-    elif len(emp_list) == 3 and len(prev_year_list) >= 3:
-        print("Warning: cannot use previous year list with only 2 employees")
 
     if len(prev_year_list):
         expected_prev_attributes = [
@@ -54,11 +58,11 @@ def _check(temp_list, list_to_shuffle, prev_year_dict):
 def assign(emp_list, prev_year_list):
     _validate(emp_list, prev_year_list)
 
-    list_to_shuffle = emp_list[1:]
+    list_to_shuffle = [i for i in islice(emp_list, 1, None)]
     temp_list = list(list_to_shuffle)
     random.shuffle(list_to_shuffle)
 
-    prev_year_dict = {i[1]: i[3] for i in prev_year_list[1:]}
+    prev_year_dict = {i[1]: i[3] for i in islice(prev_year_list, 1, None)}
 
     attempts = 1
     max_attempts = 200 if len(emp_list) < 100000 else 50
