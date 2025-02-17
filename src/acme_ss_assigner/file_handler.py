@@ -2,6 +2,7 @@ import sys
 import csv
 
 
+# Parsing files from terminal
 def parse_files():
     no_of_files = len(sys.argv)
     if no_of_files < 2 or no_of_files > 3:
@@ -10,6 +11,7 @@ def parse_files():
     return sys.argv[1:]
 
 
+# Reading CSV and converting to a list
 def read_file(file_path):
     with open(file_path, "r") as file:
         reader = csv.reader(file)
@@ -17,6 +19,7 @@ def read_file(file_path):
         return data
 
 
+# Taking list and writing to a CSV
 def write_file(output_file_name, data):
     with open(output_file_name, "w") as file:
         writer = csv.writer(file)
