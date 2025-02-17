@@ -45,7 +45,7 @@ This project is a random employee assigner built using Python and the Pytest fra
 ### Assign
 
 ```
-python acme-ss-assigner/main.py current_year.csv [previous_year.csv]
+python3 acme-ss-assigner/main.py current_year.csv [previous_year.csv]
 ```
 
 ### Run Tests
