@@ -24,7 +24,7 @@ This project is a random employee assigner built using Python and the Pytest fra
 1. Clone the repository:
 
    ```sh
-   git clone git@github.com:gogorya/acme-ss-assigner.git
+   git clone https://github.com/gogorya/acme-ss-assigner.git
    ```
 
 2. Create and activate a virtual environment:
