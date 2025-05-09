@@ -44,13 +44,13 @@ This project is a random employee assigner built using Python and the Pytest fra
 
 ### Assign
 
-```
+```bash
 python3 acme-ss-assigner/main.py current_year.csv [previous_year.csv]
 ```
 
 ### Run Tests
 
-```
+```bash
 pytest -v
 ```
 
